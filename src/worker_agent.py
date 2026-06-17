@@ -9,7 +9,7 @@ class WorkerAgent(Agent):
         super().__init__(*args, **kwargs)
         self.scheduler = scheduler
         self.stock = stock
-        self.neighbours = neighbour_jids
+        self.neighbour_jids = neighbour_jids
         self.brain=brain
         
     async def setup(self):
