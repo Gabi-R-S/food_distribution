@@ -12,7 +12,7 @@
 1) Node in need queries all neighbours, indicating a food item, an amount and an importance.
 2) Neighbours reply
    1) REJECT if they don't have the necessary resources
-   2) ACCEPT + utility value, if they are able to temporarily reserve the needed resources. These resources can only be used again if the operation terminates and they were not consumed.
+   2) ACCEPT + counter-proposal + utility value, if they are able to temporarily reserve the needed resources. These resources can only be used again if the operation terminates and they were not consumed.
 3) Node in need completes the one-shot auction based on the utility values
 4) Node in need notifies all neighbours who reserved items
 
@@ -23,14 +23,14 @@
 1) The node with food reserves the food it wants to give away and notifies all neighbours.
 2) All neighbours may.
    1) REJECT
-   2) ACCEPT, indicating their level of need and reserving space for the food.
+   2) ACCEPT, indicating their counter-proposal + level of need, and reserving space for the food.
 3) The node with the most need gets the food. 
 
 ### Direct Exchange
 
 1) The initiator reserves the food (and space, if needed) and sends a message to a specific target.
 2) The target may:
-   1) REJECT
+   1) REJECT, performing a counter-proposal
    2) ACCEPT, concluding the exchange.
 3) The initiator concludes the exchange on its side.
 
@@ -46,10 +46,10 @@
 [] Task scheduling
 [] Communication scheduling
 [] Food offers
-[] Food receipts
+[] Food requests
 [] Food trades
 [] Information exchange
 [] Food transmission delay
 [] Hunger meters
 [] Death
-[] Stock limits
+[X] Stock limits

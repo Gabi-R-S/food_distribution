@@ -32,7 +32,7 @@ MAX_INVALID_LOOPS:
                 reply_count += 1
                 
                 if reply.get_metadata("performative") == "agree":
-                    offers.append(utils.reconstruct_food_item_list(json.loads(reply.body)))
+                    offers.append(utils.reconstruct_offers(json.loads(reply.body)))
                     direct_participant_jids.append(reply.sender)
             else:
                 invalid_loops+=1

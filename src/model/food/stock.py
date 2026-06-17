@@ -36,7 +36,7 @@ class Stock:
         self.reserved_items.append(food_item)
     def remove_spoiled_nonreserved_items(self):
         now = datetime.now()
-        self.food_items = [item for item in self.food_items if now - item.creation_time >item.time_to_expire and item not in self.reserved_items]  
+        self.food_items = [item for item in self.food_items if now - item.created_at < item.time_to_expire or item in self.reserved_items]  
         
     def reserve_all(self, food_items) -> bool:
         # 1. Verify that EVERY requested item is available and not already reserved
