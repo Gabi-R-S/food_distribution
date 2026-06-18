@@ -11,4 +11,4 @@ class ReceiveRequestRequestsBehaviour(CyclicBehaviour):
             template = Template()
             template.thread = msg.thread
             template.sender =msg.sender
-            self.agent.add_behaviour(HandleRequestRequestBehaviour(data), template)
+            self.agent.add_behaviour(HandleRequestRequestBehaviour(msg.sender,data,msg.thread), template)

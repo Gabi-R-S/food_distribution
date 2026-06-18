@@ -11,4 +11,4 @@ class ReceiveOfferRequestsBehaviour(CyclicBehaviour):
             template = Template()
             template.thread = msg.thread
             template.sender =msg.sender
-            self.agent.add_behaviour(HandleOfferRequestBehaviour(data),template)
+            self.agent.add_behaviour(HandleOfferRequestBehaviour(msg.sender,data,msg.thread),template)

@@ -30,3 +30,6 @@ class Brain:
     
     def find_matches(self,agent,needed_quantities): #returns a list of foods that fill the quantities, or none otherwise
         return None
+    
+    def create_request_counteroffer(self,agent,request, other_agent_jid): #None to cancel
+        return None

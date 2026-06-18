@@ -10,4 +10,4 @@ class ReceiveTradeRequestsBehaviour(CyclicBehaviour):
             template = Template()
             template.thread = msg.thread
             template.sender =msg.sender
-            self.agent.add_behaviour(HandleTradeRequestBehaviour(data),template)
+            self.agent.add_behaviour(HandleTradeRequestBehaviour(msg.sender,data,msg.thread),template)
