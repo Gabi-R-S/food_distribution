@@ -1,6 +1,6 @@
 from spade.behaviour import OneShotBehaviour
 import json
-class HandleOfferRequestsBehaviour(OneShotBehaviour):
+class HandleOfferRequestBehaviour(OneShotBehaviour):
     def __init__(self, data, **kwargs):
         super(**kwargs)
         self.data=data
