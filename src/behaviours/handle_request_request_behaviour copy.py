@@ -3,6 +3,8 @@ import json
 from helpers.utils import *
 from spade.message import Message
 
+from helpers.utils import *
+
 class HandleRequestRequestBehaviour(OneShotBehaviour):
     def __init__(self, other_agent, data,communication_id, **kwargs):
         super(**kwargs)
@@ -27,17 +29,20 @@ class HandleRequestRequestBehaviour(OneShotBehaviour):
             
             await self.send(message)
 
-            reply=None
-            i
-            while not reply and i<3: 
-                reply = self.receive(timeout=10)
-                i+=1
-                
+            reply = self.receive(timeout=20)
+            
+                            
             if reply:
                 self.agent.stock.cancel_reserve_all(offer.food_items)
                 if reply.get_metadata("performative") =="confirm":
                     for food_item in offer.food_items:
                         self.agent.stock.remove_food_item(food_item)
+                    
+                    message= Message(to=self.agent.food_distributer_address)
+                    message.body=json.dumps({"to": self.other_agent, "food": offer.food_items})
+                    
+                    await self.send(message)
+                        
             else:
                 # if this critical part of the communication fails, assume the food was lost.
                 self.agent.stock.cancel_reserve_all(offer.food_items)

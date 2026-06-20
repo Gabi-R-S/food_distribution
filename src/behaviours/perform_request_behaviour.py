@@ -5,24 +5,14 @@ import helpers.utils as utils
 
 MAX_INVALID_LOOPS=5
 class PerformRequestBehaviour(OneShotBehaviour):
-    def __init__(self, request, communication_id, reserve_space=True, **kwargs): #needed quantities is a list of food quantities.
+    def __init__(self, request, communication_id,  **kwargs): #needed quantities is a list of food quantities.
         super(**kwargs)
         self.request = request
         self.communication_id =communication_id
-        self.reserve_space = reserve_space
+ 
         
     
     async def run(self):
-        
-        if self.reserve_space:
-            total_quantity = 0
-            for quantity in self.request.food_quantities:
-                total_quantity=quantity.amount
-                
-            
-            if not self.agent.stock.reserve_space(total_quantity):
-                self.agent.brain.on_request_failed(self.agent,self)
-                return
         
         for agent_jid in self.agent.neighbour_jids:
             message = Message(to=agent_jid,thread=self.communication_id)
@@ -53,12 +43,8 @@ MAX_INVALID_LOOPS:
         
         chosen_agent_jid, favourite_offer= self.agent.brain.choose_preferred_offer_to_receive(self.agent,  list(zip(direct_participant_jids,offers)))
         
-        if favourite_offer:
-            # if it was picked, it's because we can get the items or don't mind discarding them.
-            if self.reserve_space:
-                self.agent.stock.free_reserved_space(total_quantity)
-            self.agent.brain.add_food_items(self, favourite_offer.food_items)
-                
+        if favourite_offer:    
+            self.brain.on_food_expected(self.agent,favourite_offer.food_list, chosen_agent_jid)
             for agent_jid in self.agent.neighbour_jids:
                 if agent_jid != chosen_agent_jid:
                     message= Message(to=agent_jid,thread=self.communication_id)
@@ -69,8 +55,6 @@ MAX_INVALID_LOOPS:
                     message.set_metadata("performative", "confirm")
                     await self.send(message)
         else:
-            if self.reserve_space:
-                self.agent.stock.free_reserved_space(total_quantity)
             for agent_jid in self.agent.neighbour_jids:
                 message= Message(to=agent_jid,thread=self.communication_id)
                 message.set_metadata("performative", "cancel")

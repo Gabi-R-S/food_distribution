@@ -22,7 +22,7 @@ class Brain:
     
     def choose_preferred_offer_to_receive(self, agent, jid_offer_pairs): #must return one such pair
         pass
-    def choose_preferred_offer_to_give(self, agent, jid_offer_pairs): #must return one such pair
+    def choose_preferred_request_to_fulfill(self, agent, jid_request_pairs): #must return one such pair
         pass
     
     def should_accept_trade(self,agent, proposal, other_agent_jid) -> bool:
@@ -33,3 +33,10 @@ class Brain:
     
     def create_request_counteroffer(self,agent,request, other_agent_jid): #None to cancel
         return None
+    
+    def create_offer_counteroffer(self,agent,request, other_agent_jid): #None to cancel
+        return None
+    def create_trade_counteroffer(self,agent,request, other_agent_jid): #None to cancel
+        return None
+    def on_food_expected(self, agent, food_list, other_agent_jid):
+        pass

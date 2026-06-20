@@ -20,7 +20,7 @@ class PerformOfferBehaviour(OneShotBehaviour):
         
         reply_count=0
         num_neighbours=len(self.agent.neighbour_jids)
-        offers=[]
+        requests=[]
         invalid_loops=0
         direct_participant_jids=[]
          
@@ -32,22 +32,24 @@ MAX_INVALID_LOOPS:
                 reply_count += 1
                 
                 if reply.get_metadata("performative") == "agree":
-                    offers.append(utils.reconstruct_offers(json.loads(reply.body)))
+                    requests.append(utils.reconstruct_request(json.loads(reply.body)))
                     direct_participant_jids.append(reply.sender)
             else:
                 invalid_loops+=1
             
         
-        chosen_agent_jid, favourite_offer= self.agent.brain.choose_preferred_offer_to_give(self.agent,  list(zip(direct_participant_jids,offers)))
+        chosen_agent_jid, food_items= self.agent.brain.choose_preferred_request_to_fulfill(self.agent,  list(zip(direct_participant_jids,requests)))
         
-        if favourite_offer:
+        if food_items:
             # if it was picked, it's because we can offer the items
             
             self.agent.stock.cancel_reserve_all(self.offer.food_items)
-            for food_item in favourite_offer.food_items:
+            
+            for food_item in food_items:
                 self.agent.stock.remove_food_item(food_item)
             
-            
+            message = Message(to=self.food_distributer_address)
+            message.body=json.dumps({"to": chosen_agent_jid, "food": food_items})
                 
             for agent_jid in self.agent.neighbour_jids:
                 if agent_jid != chosen_agent_jid:
@@ -57,6 +59,7 @@ MAX_INVALID_LOOPS:
                 else:
                     message= Message(to=agent_jid,thread=self.communication_id)
                     message.set_metadata("performative", "confirm")
+                    message.body = json.dumps(food_items)
                     await self.send(message)
         else:
             for agent_jid in self.agent.neighbour_jids:
