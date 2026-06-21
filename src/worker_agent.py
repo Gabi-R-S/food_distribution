@@ -27,27 +27,30 @@ class WorkerAgent(Agent):
 
         self.counters={"offer":0,"trade":0,"request":0}
     
-    def begin_offer(self,offer):
+    def begin_offer(self,offer, callback=None):
         communication_id = "offer"+str(self.counters["offer"])
         self.counters["offer"]+=1
         
         template = Template(thread=communication_id)
-        self.add_behaviour(PerformOfferBehaviour(offer, communication_id))
+        self.add_behaviour(PerformOfferBehaviour(offer, communication_id, callback))
+        return communication_id
     
-    def begin_trade(self,other_agent_jid,request,offer):
+    def begin_trade(self,other_agent_jid,request,offer, callback=None):
         communication_id = "trade"+str(self.counters["trade"])
         self.counters["trade"]+=1
         
         template = Template(thread=communication_id)
-        self.add_behaviour(PerformTradeBehaviour(other_agent_jid,request,offer, communication_id))
-    
-    def begin_request(self,request):
+        self.add_behaviour(PerformTradeBehaviour(other_agent_jid,request,offer, communication_id, callback))
+        return communication_id
+        
+    def begin_request(self,request, callback=None):
         communication_id = "request"+str(self.counters["request"])
         self.counters["request"]+=1
         
         template = Template(thread=communication_id)
-        self.add_behaviour(PerformRequestBehaviour(request, communication_id))
-        
+        self.add_behaviour(PerformRequestBehaviour(request, communication_id, callback))
+        return communication_id
+            
     async def setup(self):
         self.add_behaviour(ScheduleTaskBehaviour())
         self.add_behaviour(RemoveSpoiledFoodBehaviour(period=1))

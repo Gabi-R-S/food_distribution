@@ -45,11 +45,11 @@
 [X] Food spoiling
 [] Task scheduling
 [] Communication scheduling
-[] Food offers
-[] Food requests
-[] Food trades
+[X] Food offers
+[X] Food requests
+[X] Food trades
 [] Information exchange
-[] Food transmission delay
+[X] Food transmission delay
 [] Hunger meters
 [] Death
 [X] Stock limits

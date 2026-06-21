@@ -5,10 +5,12 @@ import helpers.utils as utils
 
 MAX_INVALID_LOOPS=5
 class PerformRequestBehaviour(OneShotBehaviour):
-    def __init__(self, request, communication_id,  **kwargs): #needed quantities is a list of food quantities.
+    def __init__(self, request, communication_id, callback=None,  **kwargs): #needed quantities is a list of food quantities.
         super(**kwargs)
         self.request = request
         self.communication_id =communication_id
+        self.callback=callback
+    
  
         
     
@@ -59,3 +61,6 @@ MAX_INVALID_LOOPS:
                 message= Message(to=agent_jid,thread=self.communication_id)
                 message.set_metadata("performative", "cancel")
                 await self.send(message)
+        
+        if self.callback:
+            self.callback()

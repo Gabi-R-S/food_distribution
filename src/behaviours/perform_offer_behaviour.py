@@ -1,10 +1,11 @@
 from spade.behaviour import OneShotBehaviour
 
 class PerformOfferBehaviour(OneShotBehaviour):
-    def __init__(self, offer, communication_id, **kwargs):
+    def __init__(self, offer, communication_id, callback=None, **kwargs):
         super(**kwargs)
         self.offer = offer
         self.communication_id =communication_id
+        self.callback=callback
     
     async def run(self):
         if not self.agent.stock.reserve_all(self.offer.food_items):
@@ -67,5 +68,7 @@ MAX_INVALID_LOOPS:
                 message.set_metadata("performative", "cancel")
                 await self.send(message)    
         
+        if self.callback:
+            self.callback()
     
         

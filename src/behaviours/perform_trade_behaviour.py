@@ -1,13 +1,14 @@
 from spade.behaviour import OneShotBehaviour
 
 class PerformTradeBehaviour(OneShotBehaviour):
-    def __init__(self, target_jid,request, offer, communication_id, **kwargs):
+    def __init__(self, target_jid,request, offer, communication_id, callback=None, **kwargs):
         super(**kwargs)
         self.offer = offer
         self.request =request
         self.communication_id =communication_id
         self.target_jid
-        
+        self.callback=callback
+    
     async def run(self):
         if not self.agent.stock.reserve_all(self.offer.food_items):
             self.agent.brain.on_offer_failed(agent,self)
@@ -61,5 +62,6 @@ class PerformTradeBehaviour(OneShotBehaviour):
         else:
             self.agent.stock.cancel_reserve_all(self.offer.food_items)
 
-            
+        if self.callback:
+            self.callback()    
         
