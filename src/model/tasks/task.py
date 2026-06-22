@@ -2,7 +2,7 @@ from model.food.food import FoodItem as FoodItem
 from datetime import datetime
 
 class Task:
-    def __init__(self, name, cost, food_produced:list, length, start_time=None): # food_produced is a list of costs
+    def __init__(self, name, cost, food_produced:list, length, start_time=None): # food_produced is a list of food quantities, cost is a list of food_quantities
         self.name = name
         self.cost = cost
         self.food_produced = food_produced

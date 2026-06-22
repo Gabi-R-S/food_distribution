@@ -71,4 +71,7 @@ class WorkerAgent(Agent):
         template.set_metadata("performative","offer")
         self.add_behaviour(ReceiveOfferRequestsBehaviour(),template)
         
-        
+        template = Template()
+        template.set_metadata("performative","inform")
+        self.add_behaviour(ReceiveInfoBehaviour(),template)       
+        self.add_behaviour(PropagateInfoBehaviour())       

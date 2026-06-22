@@ -48,7 +48,7 @@
 [X] Food offers
 [X] Food requests
 [X] Food trades
-[] Information exchange
+[X] Information exchange
 [X] Food transmission delay
 [] Hunger meters
 [] Death

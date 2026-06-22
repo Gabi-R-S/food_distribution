@@ -28,7 +28,7 @@ class Brain:
     def should_accept_trade(self,agent, proposal, other_agent_jid) -> bool:
         pass
     
-    def find_matches(self,agent,needed_quantities): #returns a list of foods that fill the quantities, or none otherwise
+    def find_matches(self,agent,needed_quantities, context="offer"): #returns a list of foods that fill the quantities, or none otherwise
         return None
     
     def create_request_counteroffer(self,agent,request, other_agent_jid): #None to cancel
@@ -40,3 +40,9 @@ class Brain:
         return None
     def on_food_expected(self, agent, food_list, other_agent_jid):
         pass
+    
+    def on_info_received(self, agent, agent_info):
+        pass
+    
+    def get_info_to_send(self,agent):
+        return None
