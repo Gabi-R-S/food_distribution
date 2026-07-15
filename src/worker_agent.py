@@ -17,9 +17,8 @@ from behaviours.perform_trade_behaviour import PerformTradeBehaviour
 from spade.template import Template
 
 class WorkerAgent(Agent):
-    def __init__(self,scheduler, stock, neighbour_jids, brain, food_distributer_address, *args, **kwargs):
+    def __init__(self, stock, neighbour_jids, brain, food_distributer_address, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.scheduler = scheduler
         self.stock = stock
         self.neighbour_jids = neighbour_jids
         self.brain=brain

@@ -7,6 +7,28 @@ class Stock:
         self.reserved_items=[]
         self.reserved_space=0
     
+    def get_available_food_items(self):
+        return [item for item in self.food_items if item not in self.reserved_items]
+    
+    def can_perform_task(self, task) -> bool:
+        counts = {}
+        desired_counts = {}
+        cost = task.cost # list of food quantities
+        
+        for quantity in cost:
+            counts[quantity.type_of_food] = 0
+            desired_counts[quantity.type_of_food] = quantity.amount
+        
+        for item in self.food_items:
+            if item not in self.reserved_items:
+                counts[item.type_of_food] += 1
+        
+        for food_type, desired_amount in desired_counts.items():
+            if counts[food_type] < desired_amount:
+                return False
+        
+        return True
+
     def get_available_space(self):
         return self.max_capacity - len(self.food_items) - self.reserved_space
     
@@ -60,3 +82,6 @@ class Stock:
             self.reserved_items.remove(item)
             
         return True
+    
+    def is_full(self):
+        return len(self.food_items) + self.reserved_space >= self.max_capacity
